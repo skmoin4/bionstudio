@@ -1,31 +1,181 @@
-import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import { useEffect } from "react";
-import { ArrowDown, Braces, ChartNoAxesCombined, Sparkles } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { MagneticLink } from "./MotionKit";
 
-const words = "We build digital experiences that make businesses impossible to ignore.".split(" ");
+const lines = [
+  { text: "We Turn Business", accent: false },
+  { text: "Ideas Into Digital", accent: false },
+  { text: "Experiences.", accent: true },
+];
+
+const particles = [
+  { top: "10%", left: "6%", size: 5, delay: 0 },
+  { top: "78%", left: "12%", size: 4, delay: 0.6 },
+  { top: "22%", left: "94%", size: 4, delay: 1.1 },
+  { top: "60%", left: "88%", size: 6, delay: 1.6 },
+];
 
 export default function Hero() {
-  const mx = useMotionValue(0); const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 45, damping: 22 }); const sy = useSpring(my, { stiffness: 45, damping: 22 });
-  const orbX = useTransform(sx, [-.5,.5], [-24,24]); const orbY = useTransform(sy, [-.5,.5], [-18,18]);
-  useEffect(() => { const move = e => { mx.set(e.clientX/window.innerWidth-.5); my.set(e.clientY/window.innerHeight-.5); }; window.addEventListener("pointermove", move); return () => window.removeEventListener("pointermove", move); }, [mx,my]);
-  return <section className="hero" id="home">
-    <div className="hero-grid" /><motion.div className="hero-orb" style={{ x: orbX, y: orbY }} />
-    <div className="hero-copy">
-      <motion.p className="eyebrow" initial={{ opacity:0, y:12 }} animate={{ opacity:1, y:0 }} transition={{ delay:1.75 }}>Digital experiences for ambitious businesses</motion.p>
-      <h1>{words.map((word, i) => <motion.span key={`${word}-${i}`} initial={{ opacity:0, y:45, filter:"blur(12px)" }} animate={{ opacity:1, y:0, filter:"blur(0px)" }} transition={{ delay:1.45+i*.045, duration:.7, ease:[.16,1,.3,1] }} className={word === "impossible" || word === "ignore." ? "accent-word" : ""}>{word} </motion.span>)}</h1>
-      <motion.div className="hero-bottom" initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ delay:2.2 }}>
-        <p>We design and develop high-performance websites and digital experiences that help businesses look better, build trust and grow online.</p>
-        <div className="hero-actions"><MagneticLink href="#contact">Start a project</MagneticLink><MagneticLink href="#work" secondary>Explore our work</MagneticLink></div>
+  const reduceMotion = useReducedMotion();
+  const mx = useMotionValue(0);
+  const my = useMotionValue(0);
+  const sx = useSpring(mx, { stiffness: 45, damping: 22 });
+  const sy = useSpring(my, { stiffness: 45, damping: 22 });
+  const ribbonX = useTransform(sx, [-0.5, 0.5], [-26, 26]);
+  const ribbonY = useTransform(sy, [-0.5, 0.5], [-18, 18]);
+  const panelX = useTransform(sx, [-0.5, 0.5], [-10, 10]);
+  const panelY = useTransform(sy, [-0.5, 0.5], [-8, 8]);
+  useEffect(() => {
+    if (reduceMotion) return;
+    const move = (e) => {
+      mx.set(e.clientX / window.innerWidth - 0.5);
+      my.set(e.clientY / window.innerHeight - 0.5);
+    };
+    window.addEventListener("pointermove", move);
+    return () => window.removeEventListener("pointermove", move);
+  }, [mx, my, reduceMotion]);
+
+  return (
+    <section className="hero" id="home">
+      <div className="hero-grain" />
+      <div className="hero-row">
+        <div className="hero-copy">
+          <motion.p
+            className="eyebrow-mono"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            Digital technology studio
+          </motion.p>
+          <h1>
+            {lines.map((line, i) => (
+              <span className="line" key={line.text}>
+                <motion.span
+                  className={line.accent ? "accent" : ""}
+                  initial={{ y: "110%" }}
+                  animate={{ y: "0%" }}
+                  transition={{ delay: 0.5 + i * 0.14, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                >
+                  {line.text}
+                </motion.span>
+              </span>
+            ))}
+          </h1>
+        </div>
+        <div className="hero-sub">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.7 }}
+          >
+            Bion Studio designs and builds websites, applications and digital solutions that help
+            businesses move forward.
+          </motion.p>
+          <motion.div
+            className="hero-actions"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.25, duration: 0.7 }}
+          >
+            <MagneticLink href="#contact" variant="electric">
+              Start a project
+            </MagneticLink>
+            <MagneticLink href="#work" variant="outline">
+              Explore our work
+            </MagneticLink>
+          </motion.div>
+        </div>
+      </div>
+
+      <motion.div
+        className="hero-visual"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.9, duration: 1 }}
+      >
+        <motion.div
+          className="hero-ribbon h-ribbon-a"
+          style={{ x: ribbonX, y: ribbonY }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 1, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+        />
+        <motion.div
+          className="hero-ribbon h-ribbon-b"
+          style={{ x: ribbonX, y: ribbonY }}
+          initial={{ scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ delay: 1.15, duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+        />
+        <motion.div
+          className="glass-panel"
+          style={{ x: panelX, y: panelY }}
+          initial={{ opacity: 0, scale: 0.94 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.3, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {!reduceMotion && (
+            <motion.div
+              style={{
+                position: "absolute",
+                left: 0,
+                right: 0,
+                height: "40%",
+                background:
+                  "linear-gradient(to bottom, transparent, color-mix(in oklab, var(--primary) 16%, transparent), transparent)",
+              }}
+              animate={{ top: ["-10%", "100%"] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2 }}
+            />
+          )}
+        </motion.div>
+        <div className="hero-ribbon h-ribbon-c" />
+        {!reduceMotion &&
+          particles.map((p, i) => (
+            <motion.span
+              key={i}
+              className="hero-node"
+              style={{ top: p.top, left: p.left }}
+              animate={{ y: [0, -10, 0], opacity: [0.4, 1, 0.4] }}
+              transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut", delay: p.delay }}
+            />
+          ))}
       </motion.div>
-    </div>
-    <motion.div className="hero-interface" style={{ x: orbX, y: orbY }} initial={{ opacity:0, scale:.88, rotate:4 }} animate={{ opacity:1, scale:1, rotate:0 }} transition={{ delay:1.8, duration:1.2, ease:[.16,1,.3,1] }}>
-      <div className="interface-top"><span>Digital growth system</span><span className="live-dot">LIVE</span></div>
-      <div className="interface-core"><div className="core-ring"><Sparkles size={25}/><span>Build<br/>different.</span></div></div>
-      <div className="interface-stats"><div><Braces/><span>Custom build</span></div><div><ChartNoAxesCombined/><span>Growth led</span></div></div>
-    </motion.div>
-    <div className="hero-location"><span>Based in Nashik, Maharashtra</span><i /> <span>Working everywhere</span></div>
-    <a className="scroll-cue" href="#about" aria-label="Scroll to introduction"><ArrowDown size={18} /></a>
-  </section>;
+
+      <motion.div
+        className="hero-meta"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.7, duration: 0.8 }}
+      >
+        <span>
+          <i /> Remote-first · Working with businesses everywhere
+        </span>
+        <a
+          href="#services"
+          className="hero-scroll-cue"
+          aria-label="Scroll to explore"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: ".5rem",
+            font: ".62rem var(--font-mono)",
+            textTransform: "uppercase",
+            color: "var(--muted-foreground)",
+          }}
+        >
+          Scroll to explore{" "}
+          <motion.span
+            animate={reduceMotion ? undefined : { y: [0, 5, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            style={{ display: "inline-flex" }}
+          >
+            <ArrowDown size={13} />
+          </motion.span>
+        </a>
+      </motion.div>
+    </section>
+  );
 }

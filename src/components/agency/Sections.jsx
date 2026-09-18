@@ -1,34 +1,576 @@
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useInView } from "motion/react";
-import { ArrowUpRight, Check, ChevronDown, Code2, Gauge, Megaphone, PenTool, Search, ShoppingBag, Star } from "lucide-react";
-import hotelImage from "../../assets/hotel-project.jpg";
-import { brand, faqs, processSteps, services, team, testimonials } from "./content";
-import { MagneticLink, Reveal, SectionHeading } from "./MotionKit";
+import { Fragment, useEffect, useId, useRef, useState } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "motion/react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import {
+  about,
+  bionPrinciples,
+  brand,
+  processSteps,
+  services,
+  stats,
+  technologies,
+  testimonials,
+  transformation,
+  whyBion,
+} from "./content";
+import { BrandMark, MagneticLink, Reveal } from "./MotionKit";
 
-const icons = { Code2, Gauge, Megaphone, PenTool, Search, ShoppingBag };
-const reasons = ["Custom-built websites", "Modern design", "Mobile-first development", "Fast performance", "SEO-ready structure", "Transparent communication", "Long-term support", "Digital marketing expertise"];
-const technologies = ["Next.js", "React", "JavaScript", "Node.js", "Express", "MongoDB", "MySQL", "Tailwind CSS", "Motion", "GitHub", "SEO", "Analytics"];
+if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-function Counter({ value }) { const ref=useRef(null); const visible=useInView(ref,{once:true}); const [count,setCount]=useState(0); useEffect(()=>{if(!visible)return; let frame=0; const timer=setInterval(()=>{frame+=1;setCount(Math.round(value*frame/35));if(frame===35)clearInterval(timer)},32);return()=>clearInterval(timer)},[visible,value]); return <span ref={ref}>{count}+</span>; }
+function Word({ children, i, total, progress, accent }) {
+  const start = i / total;
+  const end = Math.min(1, start + 1.6 / total);
+  const opacity = useTransform(progress, [start, end], [0.16, 1]);
+  return (
+    <motion.span style={{ opacity }} className={accent ? "accent-word" : ""}>
+      {children}{" "}
+    </motion.span>
+  );
+}
 
-export function Marquee() { const items=["Website Development","Digital Marketing","SEO","Branding","UI/UX","E-Commerce","Custom Software"]; return <section className="trust-strip"><p>Built for businesses that want to be taken seriously online.</p><div className="marquee"><div>{[...items,...items].map((x,i)=><span key={`${x}-${i}`}><i />{x}</span>)}</div></div></section>; }
+export function Statement() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.85", "start 0.35"] });
+  const text =
+    "Digital isn't just where your business lives. It's how your business is experienced.";
+  const words = text.split(" ");
+  return (
+    <section className="statement-section" id="statement">
+      <div className="shell">
+        <Reveal>
+          <p className="eyebrow-mono">01 / Brand statement</p>
+        </Reveal>
+        <p className="statement-text" ref={ref} style={{ marginTop: "1.5rem" }}>
+          {words.map((w, i) => (
+            <Word
+              key={i}
+              i={i}
+              total={words.length}
+              progress={scrollYProgress}
+              accent={w === "experienced."}
+            >
+              {w}
+            </Word>
+          ))}
+        </p>
+      </div>
+    </section>
+  );
+}
 
-export function About() { return <section className="section about-section" id="about"><div className="section-shell about-grid"><div><p className="eyebrow">01 / About the studio</p><h2 className="display-title">Small team.<br/><em>Big digital</em><br/>ambition.</h2></div><div className="about-copy"><Reveal><p className="lead">We are a focused team of developers and digital marketing professionals helping businesses build a stronger presence online.</p></Reveal><Reveal><p>Strategy, design, technology and marketing live together here. That means fewer handoffs, clearer thinking and digital work that is built around the whole business—not only the screen.</p></Reveal><div className="big-number"><span>04</span><p>Team members<br/><small>One focused unit</small></p></div></div></div></section>; }
+export function Services() {
+  const [open, setOpen] = useState(0);
+  return (
+    <section className="services-v2" id="services">
+      <div className="shell">
+        <div className="services-head">
+          <Reveal>
+            <p className="eyebrow-mono">02 / What we do</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            Six disciplines. One studio, built to carry a product from idea to growth.
+          </Reveal>
+        </div>
+        <div className="service-list-v2">
+          {services.map((s, i) => {
+            const isOpen = open === i;
+            return (
+              <div className={`service-row-v2 ${isOpen ? "is-open" : ""}`} key={s.title}>
+                <div className="row-head" onClick={() => setOpen(isOpen ? -1 : i)}>
+                  <span className="row-num">{s.n}</span>
+                  <h3>{s.title}</h3>
+                  <span className="row-arrow">
+                    <ArrowUpRight size={16} />
+                  </span>
+                </div>
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      className="row-body"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <div className="row-body-inner">
+                        <span />
+                        <p>{s.text}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function Services() { return <section className="section services-section" id="services"><div className="section-shell"><SectionHeading kicker="02 / Capabilities">What we do</SectionHeading><div className="services-list">{services.map((service,i)=>{const Icon=icons[service.icon];return <motion.article className="service-row" key={service.title} initial="rest" whileHover="hover"><span>0{i+1}</span><motion.h3 variants={{hover:{x:12}}}>{service.title}</motion.h3><p>{service.text}</p><motion.div className="service-icon" variants={{hover:{rotate:8,scale:1.1}}}><Icon/></motion.div></motion.article>})}</div></div></section>; }
+export function Transformation() {
+  return (
+    <section className="transform-section">
+      <div className="shell">
+        <div className="transform-head">
+          <Reveal>
+            <p className="eyebrow-mono">03 / How it happens</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            We don't just build websites. We turn businesses into digital experiences.
+          </Reveal>
+        </div>
+        <div className="transform-flow">
+          {transformation.map((step, i) => (
+            <Fragment key={step}>
+              <Reveal delay={i * 0.08} className="transform-node">
+                <i />
+                <span>{step}</span>
+              </Reveal>
+              {i < transformation.length - 1 && (
+                <Reveal as="span" delay={i * 0.08 + 0.04} className="transform-arrow">
+                  <ArrowRight size={16} />
+                </Reveal>
+              )}
+            </Fragment>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function WhyUs() { return <section className="section why-section"><div className="section-shell why-grid"><SectionHeading kicker="Built with intent">Why businesses<br/>choose us</SectionHeading><div className="reason-list">{reasons.map((r,i)=><Reveal key={r}><div className="reason"><span>0{i+1}</span><p>{r}</p><Check size={19}/></div></Reveal>)}</div></div><div className="stats-row">{[[20,"Projects"],[15,"Happy clients"],[4,"Team members"],[3,"Years experience"]].map(([n,l])=><div key={l}><Counter value={n}/><p>{l}</p></div>)}</div></section>; }
+export function WhyBion() {
+  return (
+    <section className="why-bion" id="why">
+      <div className="shell">
+        <Reveal>
+          <p className="eyebrow-mono">04 / Why bion</p>
+        </Reveal>
+        <Reveal delay={0.06} as="h2" className="editorial-heading">
+          Four ways of working that shape everything we ship.
+        </Reveal>
+        <div className="why-grid-v2">
+          {whyBion.map((w, i) => (
+            <Reveal key={w.title} delay={i * 0.08} className="why-card" as="article">
+              <span className="why-num">{w.n}</span>
+              <h3>{w.title}</h3>
+              <p>{w.text}</p>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function HotelDemo() { return <section className="section hotel-section"><div className="section-shell"><SectionHeading kicker="Hospitality focus">Your business deserves more than a Google listing.</SectionHeading><p className="hotel-intro">We help hotels, restaurants and local businesses turn their online presence into a professional digital experience.</p><div className="hotel-showcase"><img src={hotelImage} alt="Fictional luxury hotel website concept shown on screen" loading="lazy" width="1600" height="1000"/><div className="hotel-browser"><div className="browser-bar"><span/><span/><span/></div><p>AURELIA / RETREAT</p><h3>Stay somewhere<br/><em>worth remembering.</em></h3><button type="button">Book your stay <ArrowUpRight size={15}/></button></div><div className="hotel-features">{["Direct booking","Immersive gallery","Guest reviews","Restaurant","Location","WhatsApp enquiry"].map(x=><span key={x}><Check size={14}/>{x}</span>)}</div></div><MagneticLink href="#contact">Build my business website</MagneticLink></div></section>; }
+export function BionPhilosophy() {
+  const sectionRef = useRef(null);
+  const itemRefs = useRef([]);
+  const tagRefs = useRef([]);
+  useEffect(() => {
+    const section = sectionRef.current;
+    const items = itemRefs.current.filter(Boolean);
+    const tags = tagRefs.current.filter(Boolean);
+    if (!section || !items.length) return;
+    const ctx = gsap.context(() => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 65%",
+        end: "bottom 65%",
+        scrub: 0.6,
+        onUpdate: (self) => {
+          const activeIndex = Math.min(items.length - 1, Math.floor(self.progress * items.length));
+          items.forEach((el, i) => el.classList.toggle("is-active", i <= activeIndex));
+          tags.forEach((el, i) => el.classList.toggle("is-active", i <= activeIndex));
+        },
+      });
+    }, section);
+    return () => ctx.revert();
+  }, []);
+  return (
+    <section className="bion-philosophy" id="philosophy" ref={sectionRef}>
+      <div className="shell">
+        <div className="philosophy-head">
+          <p className="eyebrow-mono">What bion stands for</p>
+          <h2>Four principles. One digital vision.</h2>
+        </div>
+        <div className="philosophy-stage">
+          <div className="philosophy-monogram">
+            <svg viewBox="0 0 100 100" aria-hidden="true">
+              <line x1="50" y1="50" x2="50" y2="10" stroke="var(--border)" strokeWidth=".5" />
+              <line x1="50" y1="50" x2="90" y2="50" stroke="var(--border)" strokeWidth=".5" />
+              <line x1="50" y1="50" x2="50" y2="90" stroke="var(--border)" strokeWidth=".5" />
+              <line x1="50" y1="50" x2="10" y2="50" stroke="var(--border)" strokeWidth=".5" />
+            </svg>
+            <span className="ring" />
+            <BrandMark className="philosophy-brandmark" />
+            <span
+              className="philosophy-letter-tag"
+              ref={(el) => (tagRefs.current[0] = el)}
+              style={{ top: "1%", left: "50%", transform: "translateX(-50%)" }}
+            >
+              B
+            </span>
+            <span
+              className="philosophy-letter-tag"
+              ref={(el) => (tagRefs.current[1] = el)}
+              style={{ top: "50%", right: "-2%", transform: "translateY(-50%)" }}
+            >
+              I
+            </span>
+            <span
+              className="philosophy-letter-tag"
+              ref={(el) => (tagRefs.current[2] = el)}
+              style={{ bottom: "1%", left: "50%", transform: "translateX(-50%)" }}
+            >
+              O
+            </span>
+            <span
+              className="philosophy-letter-tag"
+              ref={(el) => (tagRefs.current[3] = el)}
+              style={{ top: "50%", left: "-2%", transform: "translateY(-50%)" }}
+            >
+              N
+            </span>
+          </div>
+          <div className="philosophy-list">
+            {bionPrinciples.map((p, i) => (
+              <div
+                className="philosophy-item"
+                key={p.word}
+                ref={(el) => (itemRefs.current[i] = el)}
+              >
+                <span className="p-letter">{p.letter}</span>
+                <div>
+                  <h3>{p.word}</h3>
+                  <p>{p.text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="philosophy-story">
+          BION represents the way we approach digital work — we <b>Build</b> what businesses need,{" "}
+          <b>Innovate</b> where possibilities exist, <b>Optimize</b> what can be better, and{" "}
+          <b>Navigate</b> businesses toward what's next.
+        </p>
+      </div>
+    </section>
+  );
+}
 
-export function Process() { return <section className="section process-section" id="process"><div className="section-shell"><SectionHeading kicker="04 / Our process">From idea to launch</SectionHeading><div className="process-line">{processSteps.map(([title,text],i)=><Reveal className="process-step" key={title}><span>0{i+1}</span><i/><h3>{title}</h3><p>{text}</p></Reveal>)}</div></div></section>; }
+export function TechEcosystem() {
+  const gradId = useId();
+  const total = technologies.length;
+  const radius = 37;
+  const round = (n) => Math.round(n * 100) / 100;
+  const positions = technologies.map((t, i) => {
+    const angle = (i / total) * Math.PI * 2 - Math.PI / 2;
+    return { t, x: round(50 + radius * Math.cos(angle)), y: round(50 + radius * Math.sin(angle)) };
+  });
+  return (
+    <section className="tech-v2" id="tech">
+      <div className="shell">
+        <div className="tech-head">
+          <Reveal>
+            <p className="eyebrow-mono">06 / Technology</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            An ecosystem built around Bion.
+          </Reveal>
+        </div>
+        <div className="tech-graph">
+          <svg className="tech-lines" viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stopColor="var(--primary)" />
+                <stop offset="100%" stopColor="var(--electric)" />
+              </linearGradient>
+            </defs>
+            {positions.map((p) => (
+              <line key={p.t} x1="50" y1="50" x2={p.x} y2={p.y} stroke={`url(#${gradId})`} />
+            ))}
+          </svg>
+          <div className="tech-node-core">
+            <span>BION</span>
+          </div>
+          {positions.map((p) => (
+            <motion.span
+              key={p.t}
+              className="tech-node"
+              style={{ left: `${p.x}%`, top: `${p.y}%` }}
+              initial={{ opacity: 0, scale: 0.6 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.5 }}
+            >
+              {p.t}
+            </motion.span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function TeamAndTech() { return <><section className="section team-section"><div className="section-shell"><SectionHeading kicker="05 / The studio">The people behind the pixels</SectionHeading><p className="demo-note">Team details are placeholders and ready to be replaced.</p><div className="team-grid">{team.map(([name,role],i)=><article className="team-card" key={name}><div className={`team-portrait portrait-${i+1}`}><span>{String(i+1).padStart(2,"0")}</span></div><p>{name}</p><h3>{role}</h3></article>)}</div></div></section><section className="tech-section"><div className="section-shell tech-grid"><div><p className="eyebrow">Technology ecosystem</p><h2 className="section-title">Modern tools.<br/>Practical outcomes.</h2></div><div className="tech-orbit">{technologies.map((t,i)=><motion.span key={t} className={`tech-pill pill-${i%4}`} animate={{y:[0,-8,0]}} transition={{duration:3+i%3,repeat:Infinity,ease:"easeInOut",delay:i*.12}}>{t}</motion.span>)}</div></div></section></>; }
+export function Process() {
+  const pinRef = useRef(null);
+  const trackRef = useRef(null);
+  const barRef = useRef(null);
+  useEffect(() => {
+    const pin = pinRef.current;
+    const track = trackRef.current;
+    const bar = barRef.current;
+    if (!pin || !track) return;
+    const mm = gsap.matchMedia();
+    mm.add("(min-width: 901px)", () => {
+      const distance = () => track.scrollWidth - window.innerWidth + 64;
+      const tween = gsap.to(track, {
+        x: () => -distance(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: pin,
+          start: "top top",
+          end: () => `+=${distance()}`,
+          scrub: 0.6,
+          pin: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            if (bar) gsap.set(bar, { scaleX: self.progress });
+          },
+        },
+      });
+      return () => {
+        tween.scrollTrigger?.kill();
+        tween.kill();
+      };
+    });
+    return () => mm.revert();
+  }, []);
+  return (
+    <section className="process-v2" id="process">
+      <div className="process-pin" ref={pinRef}>
+        <div className="process-pin-head shell">
+          <Reveal>
+            <p className="eyebrow-mono">07 / Process</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            A journey from idea to growth.
+          </Reveal>
+        </div>
+        <div className="process-track-v2" ref={trackRef}>
+          {processSteps.map((step) => (
+            <div className="process-card" key={step.n}>
+              <span className="p-num">{step.n}</span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="process-progress">
+          <i ref={barRef} />
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function Testimonials() { const [active,setActive]=useState(0); useEffect(()=>{const t=setInterval(()=>setActive(a=>(a+1)%testimonials.length),5000);return()=>clearInterval(t)},[]); return <section className="section testimonial-section"><div className="section-shell"><p className="eyebrow">Demo testimonials / layout preview</p><div className="testimonial-stage"><span className="quote-mark">“</span><AnimatePresence mode="wait"><motion.blockquote key={active} initial={{opacity:0,y:25}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-20}} transition={{duration:.45}}><p>{testimonials[active][0]}</p><footer>{testimonials[active][1]}</footer></motion.blockquote></AnimatePresence><div className="testimonial-dots">{testimonials.map((_,i)=><button key={i} onClick={()=>setActive(i)} className={active===i?"active":""} aria-label={`View demo testimonial ${i+1}`}/>)}</div></div></div></section>; }
+export function About() {
+  return (
+    <section className="about-v2" id="about">
+      <div className="shell about-grid-v2">
+        <div>
+          <Reveal>
+            <p className="eyebrow-mono">08 / About bion</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            {about.headline}
+          </Reveal>
+        </div>
+        <div className="about-copy-v2">
+          {about.paragraphs.map((p, i) => (
+            <Reveal key={i} delay={i * 0.07}>
+              <p>{p}</p>
+            </Reveal>
+          ))}
+          <div className="about-stats">
+            {stats.map(([n, l]) => (
+              <div key={l}>
+                <span>{n}</span>
+                <p>{l}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function FAQ() { const [open,setOpen]=useState(0); return <section className="section faq-section"><div className="section-shell faq-grid"><SectionHeading kicker="Questions, answered">Good to know.</SectionHeading><div>{faqs.map(([q,a],i)=><article className="faq-item" key={q}><button onClick={()=>setOpen(open===i?-1:i)} aria-expanded={open===i}><span>{q}</span><motion.span animate={{rotate:open===i?180:0}}><ChevronDown/></motion.span></button><AnimatePresence initial={false}>{open===i&&<motion.div initial={{height:0,opacity:0}} animate={{height:"auto",opacity:1}} exit={{height:0,opacity:0}}><p>{a}</p></motion.div>}</AnimatePresence></article>)}</div></div></section>; }
+export function Testimonials() {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setActive((a) => (a + 1) % testimonials.length), 5000);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <section className="testimonial-v2">
+      <div className="shell">
+        <div className="testimonial-stage-v2">
+          <Reveal>
+            <p className="eyebrow-mono">09 / Client voices</p>
+          </Reveal>
+          <AnimatePresence mode="wait">
+            <motion.blockquote
+              key={active}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -16 }}
+              transition={{ duration: 0.45 }}
+            >
+              <p>"{testimonials[active].quote}"</p>
+              <footer>
+                <b>{testimonials[active].name}</b> — {testimonials[active].role}
+              </footer>
+            </motion.blockquote>
+          </AnimatePresence>
+          <div className="testimonial-dots-v2">
+            {testimonials.map((_, i) => (
+              <button
+                key={i}
+                className={active === i ? "active" : ""}
+                onClick={() => setActive(i)}
+                aria-label={`View testimonial ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function FinalCTA() { return <section className="final-cta"><div className="cta-light"/><div className="section-shell"><p className="eyebrow">Ready when you are</p><h2>Your next customer is already <em>searching for you.</em></h2><p>Let's build a digital presence that earns attention, builds trust and turns visitors into customers.</p><div><MagneticLink href="#contact">Start a project</MagneticLink><MagneticLink href={brand.whatsapp} secondary external>Talk on WhatsApp</MagneticLink></div></div></section>; }
+export function FinalCTA() {
+  return (
+    <section className="final-cta-v2" id="start">
+      <div className="shell cta-grid">
+        <div>
+          <Reveal>
+            <p className="eyebrow-mono">Ready when you are</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2">
+            Let's build
+            <br />
+            <em>something digital.</em>
+          </Reveal>
+          <Reveal delay={0.1} as="p">
+            Have an idea, a business problem or a product you want to build? Let's turn it into a
+            digital experience.
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="hero-actions">
+              <MagneticLink href="#contact" variant="electric">
+                Start a project
+              </MagneticLink>
+            </div>
+          </Reveal>
+        </div>
+        <div className="final-cta-visual">
+          <div className="ring" />
+          <div className="ring ring-2" />
+          <motion.div
+            className="core"
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export function Contact() { const [sent,setSent]=useState(false); return <section className="section contact-section" id="contact"><div className="section-shell contact-grid"><div><SectionHeading kicker="Start a conversation">Let's build something valuable.</SectionHeading><div className="contact-info"><a href={`mailto:${brand.email}`}>{brand.email}</a><a href={brand.whatsapp}>{brand.phone}</a><p>{brand.location}</p></div><div className="socials"><a href="#contact">Instagram</a><a href="#contact">LinkedIn</a><a href={brand.whatsapp}>WhatsApp</a></div></div><form onSubmit={e=>{e.preventDefault();setSent(true)}}>{[["Name","text"],["Business name","text"],["Phone","tel"],["Email","email"]].map(([label,type])=><label key={label}><span>{label}</span><input type={type} required placeholder={label}/></label>)}<label><span>Business type</span><input placeholder="Hotel, restaurant, startup..."/></label><label><span>Services required</span><select defaultValue=""><option value="" disabled>Select a service</option>{["Website","E-Commerce","Digital Marketing","SEO","Redesign","Other"].map(x=><option key={x}>{x}</option>)}</select></label><label className="full-field"><span>Tell us about the project</span><textarea rows="4" placeholder="Goals, timeline, current challenges..."/></label><button className="submit-button" type="submit">{sent?"Enquiry ready — we'll be in touch":"Send enquiry"}<ArrowUpRight/></button>{sent&&<p className="form-note">Demo form complete. Connect your preferred inbox before launch.</p>}</form></div></section>; }
+export function Contact() {
+  const [sent, setSent] = useState(false);
+  return (
+    <section className="contact-v2" id="contact">
+      <div className="shell contact-grid-v2">
+        <div>
+          <Reveal>
+            <p className="eyebrow-mono">Start a conversation</p>
+          </Reveal>
+          <Reveal delay={0.06} as="h2" className="editorial-heading">
+            Let's build something valuable.
+          </Reveal>
+          <div className="contact-info-v2">
+            <a href={`mailto:${brand.email}`}>{brand.email}</a>
+            <a href={brand.whatsapp}>{brand.phone}</a>
+            <p>{brand.location}</p>
+          </div>
+          <div className="contact-socials-v2">
+            <a href="#contact">Instagram</a>
+            <a href="#contact">LinkedIn</a>
+            <a href={brand.whatsapp}>WhatsApp</a>
+          </div>
+        </div>
+        <form
+          className="contact-form-v2"
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSent(true);
+          }}
+        >
+          {[
+            ["Name", "text"],
+            ["Business name", "text"],
+            ["Phone", "tel"],
+            ["Email", "email"],
+          ].map(([label, type]) => (
+            <label key={label}>
+              <span>{label}</span>
+              <input type={type} required placeholder={label} />
+            </label>
+          ))}
+          <label>
+            <span>Business type</span>
+            <input placeholder="Startup, retail, hospitality..." />
+          </label>
+          <label>
+            <span>Services required</span>
+            <select defaultValue="">
+              <option value="" disabled>
+                Select a service
+              </option>
+              {[
+                "Web Experience",
+                "Digital Product",
+                "Mobile App",
+                "Custom Software",
+                "UI/UX",
+                "Automation",
+                "Other",
+              ].map((x) => (
+                <option key={x}>{x}</option>
+              ))}
+            </select>
+          </label>
+          <label className="contact-full">
+            <span>Tell us about the project</span>
+            <textarea rows="4" placeholder="Goals, timeline, current challenges..." />
+          </label>
+          <button className="btn btn-electric contact-submit" type="submit">
+            {sent ? "Enquiry ready — we'll be in touch" : "Send enquiry"}
+            <ArrowUpRight size={16} />
+          </button>
+          {sent && (
+            <p className="form-note-v2">
+              Demo form complete. Connect your preferred inbox before launch.
+            </p>
+          )}
+        </form>
+      </div>
+    </section>
+  );
+}

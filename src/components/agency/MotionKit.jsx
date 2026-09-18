@@ -1,26 +1,60 @@
-import { useRef } from "react";
+import { useId, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 
-export const reveal = {
-  hidden: { opacity: 0, y: 42, filter: "blur(10px)" },
-  show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] } },
-};
-
-export function Reveal({ children, className = "", delay = 0 }) {
-  return <motion.div className={className} variants={reveal} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.15 }} transition={{ delay }}>{children}</motion.div>;
-}
-
-export function SectionHeading({ kicker, children, className = "" }) {
+export function BrandMark({ className = "" }) {
+  const id = useId();
   return (
-    <Reveal className={className}>
-      <p className="eyebrow">{kicker}</p>
-      <h2 className="section-title">{children}</h2>
-    </Reveal>
+    <span className={`brand-mark ${className}`}>
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <defs>
+          <linearGradient id={id} x1="10%" y1="0%" x2="95%" y2="100%">
+            <stop offset="0%" stopColor="var(--navy)" />
+            <stop offset="48%" stopColor="var(--primary)" />
+            <stop offset="100%" stopColor="var(--electric)" />
+          </linearGradient>
+        </defs>
+        <path d="M14 6h27L21 28H8V17a11 11 0 0 1 6-11z" fill={`url(#${id})`} />
+        <path d="M17 34h27L24 56H11V45a11 11 0 0 1 6-11z" fill={`url(#${id})`} opacity=".92" />
+      </svg>
+    </span>
   );
 }
 
-export function MagneticLink({ href, children, secondary = false, external = false }) {
+export const reveal = {
+  hidden: { opacity: 0, y: 36, filter: "blur(8px)" },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.85, ease: [0.16, 1, 0.3, 1] },
+  },
+};
+
+export function Reveal({ children, className = "", delay = 0, as = "div" }) {
+  const Comp = motion[as] || motion.div;
+  return (
+    <Comp
+      className={className}
+      variants={reveal}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ delay }}
+    >
+      {children}
+    </Comp>
+  );
+}
+
+const variantClass = {
+  solid: "btn-solid",
+  electric: "btn-electric",
+  outline: "btn-outline",
+  "outline-light": "btn-outline-light",
+};
+
+export function MagneticLink({ href, children, variant = "solid", external = false, cursorLabel }) {
   const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -35,17 +69,23 @@ export function MagneticLink({ href, children, secondary = false, external = fal
   };
 
   return (
-    <motion.a ref={ref} href={href} target={external ? "_blank" : undefined} rel={external ? "noreferrer" : undefined} className={secondary ? "button button-secondary" : "button button-primary"} style={{ x: springX, y: springY }} onMouseMove={move} onMouseLeave={() => { x.set(0); y.set(0); }} data-cursor="action">
-      <span>{children}</span><ArrowUpRight size={17} />
+    <motion.a
+      ref={ref}
+      href={href}
+      target={external ? "_blank" : undefined}
+      rel={external ? "noreferrer" : undefined}
+      className={`btn ${variantClass[variant]}`}
+      style={{ x: springX, y: springY }}
+      onMouseMove={move}
+      onMouseLeave={() => {
+        x.set(0);
+        y.set(0);
+      }}
+      data-cursor="action"
+      data-cursor-text={cursorLabel}
+    >
+      <span>{children}</span>
+      <ArrowUpRight size={17} />
     </motion.a>
   );
-}
-
-export function TiltCard({ children, className = "" }) {
-  const ref = useRef(null);
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const rotateX = useSpring(rx, { stiffness: 180, damping: 20 });
-  const rotateY = useSpring(ry, { stiffness: 180, damping: 20 });
-  return <motion.article ref={ref} className={className} style={{ rotateX, rotateY, transformPerspective: 1000 }} onMouseMove={(e) => { const r = ref.current?.getBoundingClientRect(); if (!r) return; rx.set(-((e.clientY-r.top)/r.height-.5)*3); ry.set(((e.clientX-r.left)/r.width-.5)*3); }} onMouseLeave={() => { rx.set(0); ry.set(0); }}>{children}</motion.article>;
 }

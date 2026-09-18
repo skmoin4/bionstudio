@@ -1,26 +1,55 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AgencyApp from "../components/agency/App";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Bion Studio | Digital Experiences Built for Growth";
+const DESCRIPTION =
+  "Bion Studio builds premium websites, applications, software and digital solutions that help businesses grow.";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  name: "Bion Studio",
+  slogan: "Build. Innovate. Optimize. Navigate.",
+  description: DESCRIPTION,
+  url: "/",
+  areaServed: "Worldwide",
+  serviceType: [
+    "Website Development",
+    "Web Applications",
+    "Mobile App Development",
+    "Custom Software",
+    "UI/UX Design",
+    "E-Commerce Development",
+    "Business Automation",
+  ],
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Nexora Studio | Web Development & Digital Growth Agency" },
-      { name: "description", content: "We build premium websites and digital experiences for ambitious businesses." },
-      { property: "og:title", content: "Nexora Studio | Web Development & Digital Growth Agency" },
-      { property: "og:description", content: "We build premium websites and digital experiences for ambitious businesses." },
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return <AgencyApp />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      <AgencyApp />
+    </>
+  );
 }
