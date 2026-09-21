@@ -3350,3 +3350,52 @@
     width: min(100% - 32px, 1320px);
   }
 }
+
+/* compact, side-by-side buttons on phones */
+@media (max-width: 720px) {
+  .btn {
+    min-height: 46px;
+    padding: 4px 4px 4px 1.1rem;
+    gap: 0.7rem;
+    font-size: 0.8rem;
+  }
+  .btn-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .btn-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .hero-actions,
+  .final-cta-v2 .hero-actions {
+    flex-wrap: nowrap;
+    gap: 0.6rem;
+  }
+  .hero-actions .btn,
+  .final-cta-v2 .hero-actions .btn {
+    flex: 1 1 0;
+    min-width: 0;
+    width: auto;
+    justify-content: space-between;
+    padding-left: 0.95rem;
+    gap: 0.4rem;
+  }
+  .statement-foot .btn {
+    width: auto;
+  }
+  .contact-submit {
+    width: auto;
+  }
+}
+@media (max-width: 380px) {
+  .hero-actions .btn,
+  .final-cta-v2 .hero-actions .btn {
+    font-size: 0.74rem;
+    padding-left: 0.8rem;
+  }
+  .btn-icon {
+    width: 32px;
+    height: 32px;
+  }
+}

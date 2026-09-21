@@ -638,7 +638,7 @@ export function FinalCTA() {
                 Start a project
               </MagneticLink>
               <MagneticLink href={`mailto:${brand.email}`} variant="outline">
-                {brand.email}
+                Email us
               </MagneticLink>
             </div>
           </Reveal>
