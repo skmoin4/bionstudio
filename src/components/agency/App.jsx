@@ -10,7 +10,9 @@ import {
   About,
   BionPhilosophy,
   Contact,
+  FAQ,
   FinalCTA,
+  Marquee,
   Process,
   Services,
   Statement,
@@ -67,7 +69,7 @@ function Cursor() {
   }, [x, y]);
   return (
     <motion.div
-      className={`custom-cursor ${active ? "cursor-active" : ""}`}
+      className={`custom-cursor ${active ? "cursor-active" : ""} ${active && label ? "has-label" : ""}`}
       style={{ x: sx, y: sy }}
     >
       {label && <span className={`cursor-label ${active ? "show" : ""}`}>{label}</span>}
@@ -113,6 +115,7 @@ export default function AgencyApp() {
       <Navbar />
       <main>
         <Hero />
+        <Marquee />
         <Statement />
         <Services />
         <Transformation />
@@ -123,6 +126,7 @@ export default function AgencyApp() {
         <Process />
         <About />
         <Testimonials />
+        <FAQ />
         <FinalCTA />
         <Contact />
       </main>

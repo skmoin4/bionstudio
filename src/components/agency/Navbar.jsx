@@ -1,8 +1,8 @@
 import { AnimatePresence, motion, useScroll } from "motion/react";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Menu, X } from "lucide-react";
+import { X } from "lucide-react";
 import { brand, navItems } from "./content";
-import { BrandMark } from "./MotionKit";
+import { BrandMark, ButtonContent } from "./MotionKit";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -37,7 +37,7 @@ export default function Navbar() {
           ))}
         </nav>
         <a className="btn btn-electric nav-cta" href="#contact">
-          Start a project <ArrowUpRight size={14} />
+          <ButtonContent>Start a project</ButtonContent>
         </a>
         <button className="menu-toggle" onClick={() => setOpen(true)} aria-label="Open menu">
           <i />

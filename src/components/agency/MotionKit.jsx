@@ -47,6 +47,21 @@ export function Reveal({ children, className = "", delay = 0, as = "div" }) {
   );
 }
 
+export function ButtonContent({ children }) {
+  return (
+    <>
+      <span className="btn-label">
+        <span>{children}</span>
+        <span aria-hidden="true">{children}</span>
+      </span>
+      <span className="btn-icon" aria-hidden="true">
+        <ArrowUpRight size={16} />
+        <ArrowUpRight size={16} />
+      </span>
+    </>
+  );
+}
+
 const variantClass = {
   solid: "btn-solid",
   electric: "btn-electric",
@@ -84,8 +99,7 @@ export function MagneticLink({ href, children, variant = "solid", external = fal
       data-cursor="action"
       data-cursor-text={cursorLabel}
     >
-      <span>{children}</span>
-      <ArrowUpRight size={17} />
+      <ButtonContent>{children}</ButtonContent>
     </motion.a>
   );
 }

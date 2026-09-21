@@ -16,7 +16,7 @@ export default function Footer() {
           </button>
         </div>
         <div className="footer-cols">
-          <p>Digital experiences. Built for growth.</p>
+          <p>Digital experiences for ambitious brands — designed with care, engineered to last.</p>
           <div>
             <strong>Navigate</strong>
             {navItems.map((x) => (
@@ -36,7 +36,7 @@ export default function Footer() {
           <div>
             <strong>Contact</strong>
             <a href={`mailto:${brand.email}`}>{brand.email}</a>
-            <a href={brand.whatsapp}>{brand.phone}</a>
+            <a href={brand.whatsapp}>WhatsApp</a>
             <span>{brand.location}</span>
           </div>
         </div>
