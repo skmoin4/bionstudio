@@ -6,9 +6,11 @@ export const brand = {
   name: "BION STUDIO",
   shortName: "BION",
   tagline: "Build. Innovate. Optimize. Navigate.",
-  email: "hello@bionstudio.in",
-  phone: "+91 00000 00000",
-  whatsapp: "https://wa.me/910000000000",
+  email: "bionstudio3@gmail.com",
+  phone: "+91 91585 29196",
+  phoneHref: "tel:+919158529196",
+  whatsapp: "https://wa.me/919158529196",
+  instagram: "https://www.instagram.com/bionstudioo/",
   location: "Remote-first · Available worldwide",
 };
 

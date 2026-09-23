@@ -36,7 +36,13 @@ export default function Footer() {
           <div>
             <strong>Contact</strong>
             <a href={`mailto:${brand.email}`}>{brand.email}</a>
-            <a href={brand.whatsapp}>WhatsApp</a>
+            <a href={brand.phoneHref}>{brand.phone}</a>
+            <a href={brand.whatsapp} target="_blank" rel="noopener noreferrer">
+              WhatsApp
+            </a>
+            <a href={brand.instagram} target="_blank" rel="noopener noreferrer">
+              Instagram
+            </a>
             <span>{brand.location}</span>
           </div>
         </div>

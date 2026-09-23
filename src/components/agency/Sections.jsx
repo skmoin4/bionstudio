@@ -677,7 +677,13 @@ export function Contact() {
           </Reveal>
           <div className="contact-info-v2">
             <a href={`mailto:${brand.email}`}>{brand.email}</a>
-            <a href={brand.whatsapp}>Chat on WhatsApp</a>
+            <a href={brand.phoneHref}>{brand.phone}</a>
+            <a href={brand.whatsapp} target="_blank" rel="noopener noreferrer">
+              Chat on WhatsApp
+            </a>
+            <a href={brand.instagram} target="_blank" rel="noopener noreferrer">
+              @bionstudioo on Instagram
+            </a>
             <p>{brand.location}</p>
           </div>
         </div>
