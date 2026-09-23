@@ -142,7 +142,7 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              Design & engineering studio
+              Web design & development studio · Nashik
             </motion.p>
             <h1>
               {lines.map((line, i) => (
