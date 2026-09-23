@@ -366,7 +366,7 @@ export default function Hero() {
         transition={{ delay: 1.7, duration: 0.8 }}
       >
         <span>
-          <i /> Remote-first · Working with businesses everywhere
+          <i /> Based in Nashik · Working with businesses everywhere
         </span>
         <a
           href="#services"

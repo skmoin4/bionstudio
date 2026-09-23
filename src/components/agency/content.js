@@ -11,7 +11,7 @@ export const brand = {
   phoneHref: "tel:+919158529196",
   whatsapp: "https://wa.me/919158529196",
   instagram: "https://www.instagram.com/bionstudioo/",
-  location: "Remote-first · Available worldwide",
+  location: "Based in Nashik, India · Working remotely worldwide",
 };
 
 export const navItems = ["Home", "Services", "Work", "About", "Process", "Contact"];
