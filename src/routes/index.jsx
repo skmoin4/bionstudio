@@ -3,7 +3,7 @@ import AgencyApp from "../components/agency/App";
 import { brand, faqs, services } from "../components/agency/content";
 
 // Change this one value if the live domain is different.
-export const SITE_URL = "https://bionstudio.in";
+export const SITE_URL = "https://www.bionstudio.in";
 
 const TITLE = "Bion Studio | Website, App & Software Development Agency in Nashik";
 const DESCRIPTION =
