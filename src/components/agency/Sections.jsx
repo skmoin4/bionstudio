@@ -684,6 +684,9 @@ export function Contact() {
             <a href={brand.instagram} target="_blank" rel="noopener noreferrer">
               @bionstudioo on Instagram
             </a>
+            <a href={brand.facebook} target="_blank" rel="noopener noreferrer">
+              Bion Studio on Facebook
+            </a>
             <p>{brand.location}</p>
           </div>
         </div>

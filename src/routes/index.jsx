@@ -40,7 +40,7 @@ const structuredData = {
       image: OG_IMAGE,
       email: brand.email,
       telephone: "+919158529196",
-      sameAs: [brand.instagram],
+      sameAs: [brand.instagram, brand.facebook],
       contactPoint: {
         "@type": "ContactPoint",
         telephone: "+919158529196",
@@ -76,7 +76,7 @@ const structuredData = {
         { "@type": "Country", name: "India" },
         "Worldwide",
       ],
-      sameAs: [brand.instagram],
+      sameAs: [brand.instagram, brand.facebook],
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Digital services",

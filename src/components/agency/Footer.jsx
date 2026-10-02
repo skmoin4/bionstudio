@@ -43,6 +43,9 @@ export default function Footer() {
             <a href={brand.instagram} target="_blank" rel="noopener noreferrer">
               Instagram
             </a>
+            <a href={brand.facebook} target="_blank" rel="noopener noreferrer">
+              Facebook
+            </a>
             <span>{brand.location}</span>
           </div>
         </div>
