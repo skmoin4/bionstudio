@@ -31,7 +31,7 @@ export const reveal = {
   },
 };
 
-export function Reveal({ children, className = "", delay = 0, as = "div" }) {
+export function Reveal({ children, className = "", delay = 0, as = "div", ...rest }) {
   const Comp = motion[as] || motion.div;
   return (
     <Comp
@@ -41,6 +41,7 @@ export function Reveal({ children, className = "", delay = 0, as = "div" }) {
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
       transition={{ delay }}
+      {...rest}
     >
       {children}
     </Comp>

@@ -141,7 +141,14 @@ export function Services() {
         </SectionHead>
         <div className="service-list-v2">
           {services.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.04} as="article" className="service-row-v2">
+            <Reveal
+              key={s.title}
+              delay={i * 0.04}
+              as="a"
+              href={`/services/${s.slug}`}
+              className="service-row-v2"
+              aria-label={`${s.title} — learn more`}
+            >
               <span className="row-num">{s.n}</span>
               <h3>{s.title}</h3>
               <div className="row-copy">
@@ -566,7 +573,7 @@ export function Testimonials() {
   );
 }
 
-export function FAQ() {
+export function FAQ({ items = faqs, index = "10" }) {
   const [open, setOpen] = useState(0);
   return (
     <section className="section theme-light faq-v2" id="faq">
@@ -574,7 +581,7 @@ export function FAQ() {
         <div className="faq-intro">
           <Reveal>
             <p className="eyebrow-mono">
-              <b>10</b> Questions
+              <b>{index}</b> Questions
             </p>
           </Reveal>
           <Reveal delay={0.06} as="h2">
@@ -585,7 +592,7 @@ export function FAQ() {
           </Reveal>
         </div>
         <div className="faq-list">
-          {faqs.map((f, i) => {
+          {items.map((f, i) => {
             const isOpen = open === i;
             return (
               <div className={`faq-item ${isOpen ? "is-open" : ""}`} key={f.q}>
@@ -619,7 +626,7 @@ export function FAQ() {
   );
 }
 
-export function FinalCTA() {
+export function FinalCTA({ ctaHref = "#contact" }) {
   return (
     <section className="section final-cta-v2" id="start">
       <div className="shell cta-grid">
@@ -638,7 +645,7 @@ export function FinalCTA() {
           </Reveal>
           <Reveal delay={0.15}>
             <div className="hero-actions">
-              <MagneticLink href="#contact" variant="electric">
+              <MagneticLink href={ctaHref} variant="electric">
                 Start a project
               </MagneticLink>
               <MagneticLink href={`mailto:${brand.email}`} variant="outline">
@@ -661,18 +668,18 @@ export function FinalCTA() {
   );
 }
 
-export function Contact() {
+export function Contact({ headingAs = "h2", index = "11" }) {
   const [sent, setSent] = useState(false);
   return (
-    <section className="section theme-light contact-v2" id="contact">
+    <section className={`section theme-light contact-v2 ${headingAs === "h1" ? "is-page" : ""}`} id="contact">
       <div className="shell contact-grid-v2">
         <div>
           <Reveal>
             <p className="eyebrow-mono">
-              <b>11</b> Contact
+              <b>{index}</b> Contact
             </p>
           </Reveal>
-          <Reveal delay={0.06} as="h2">
+          <Reveal delay={0.06} as={headingAs}>
             Tell us what you’re <em>building.</em>
           </Reveal>
           <Reveal delay={0.1} as="p" className="sec-lede">

@@ -1,5 +1,6 @@
 import { ArrowUp } from "lucide-react";
-import { brand, navItems, services } from "./content";
+import { brand, navItems } from "./content";
+import { industryPages, servicePages } from "./pages";
 import { BrandMark } from "./MotionKit";
 
 export default function Footer() {
@@ -20,16 +21,24 @@ export default function Footer() {
           <div>
             <strong>Navigate</strong>
             {navItems.map((x) => (
-              <a key={x} href={x === "Home" ? "#home" : `#${x.toLowerCase()}`}>
-                {x}
+              <a key={x.label} href={x.href}>
+                {x.label}
               </a>
             ))}
           </div>
           <div>
             <strong>Services</strong>
-            {services.slice(0, 4).map((x) => (
-              <a key={x.title} href="#services">
-                {x.title}
+            {servicePages.map((x) => (
+              <a key={x.slug} href={`/services/${x.slug}`}>
+                {x.navTitle}
+              </a>
+            ))}
+          </div>
+          <div>
+            <strong>Industries</strong>
+            {industryPages.map((x) => (
+              <a key={x.slug} href={`/industries/${x.slug}`}>
+                {x.navTitle}
               </a>
             ))}
           </div>
@@ -59,7 +68,9 @@ export default function Footer() {
         <div className="footer-bottom">
           <span>© 2026 {brand.name}</span>
           <span>{brand.tagline}</span>
-          <span>All rights reserved.</span>
+          <span>
+            <a href="/privacy-policy">Privacy Policy</a> · All rights reserved.
+          </span>
         </div>
       </div>
     </footer>

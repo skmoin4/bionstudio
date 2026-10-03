@@ -15,42 +15,55 @@ export const brand = {
   location: "Based in Nashik, India · Working remotely worldwide",
 };
 
-export const navItems = ["Home", "Services", "Solutions", "About", "Process", "Contact"];
+export const navItems = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/#services", menu: "services" },
+  { label: "Industries", href: "/#solutions", menu: "industries" },
+  { label: "About", href: "/#about" },
+  { label: "Process", href: "/#process" },
+  { label: "Contact", href: "/contact" },
+];
 
 export const services = [
   {
     n: "01",
     title: "Websites & Web Experiences",
+    slug: "website-development",
     text: "Fast, considered websites that carry a brand's ambition — designed to be remembered and built to convert.",
     tags: ["Brand sites", "Landing pages", "E-commerce", "CMS"],
   },
   {
     n: "02",
     title: "Web Apps & Platforms",
+    slug: "web-app-development",
     text: "Dashboards, portals and platforms designed around real workflows — never forced into a template.",
     tags: ["SaaS", "Client portals", "Dashboards", "APIs"],
   },
   {
     n: "03",
     title: "Mobile Applications",
+    slug: "mobile-app-development",
     text: "iOS and Android apps that put your product in every customer's pocket, with native-grade polish.",
     tags: ["iOS", "Android", "Flutter", "React Native"],
   },
   {
     n: "04",
     title: "Custom Software",
+    slug: "custom-software-development",
     text: "Purpose-built systems for the problems that off-the-shelf tools were never designed to solve.",
     tags: ["Internal tools", "Booking systems", "CRM", "Integrations"],
   },
   {
     n: "05",
     title: "UI / UX Design",
+    slug: "ui-ux-design",
     text: "Interfaces shaped by clarity and restraint — research, design systems and prototypes that feel inevitable.",
     tags: ["Research", "Design systems", "Prototyping", "Branding"],
   },
   {
     n: "06",
     title: "Business Automation",
+    slug: "business-automation",
     text: "Workflows and integrations that remove repetitive work, so your team can spend its time on growth.",
     tags: ["Workflows", "Payments", "Notifications", "AI tooling"],
   },
@@ -80,6 +93,7 @@ export const projects = [
   {
     n: "01",
     title: "Hotels, Resorts & Homestays",
+    slug: "hotels-resorts",
     industry: "Hospitality",
     built:
       "Websites that show off your rooms, views and experiences — and let guests book directly with you instead of paying commission to booking portals.",
@@ -90,6 +104,7 @@ export const projects = [
   {
     n: "02",
     title: "Restaurants, Cafés & Bakeries",
+    slug: "restaurants-cafes",
     industry: "Food & Beverage",
     built:
       "A digital menu, table reservations and online ordering that turn people searching \"near me\" into customers walking through your door.",
@@ -100,6 +115,7 @@ export const projects = [
   {
     n: "03",
     title: "Retail & Online Stores",
+    slug: "retail-ecommerce",
     industry: "E-commerce",
     built:
       "Online stores with fast product pages, UPI and card payments, and an admin panel you can run yourself — no developer needed for daily updates.",

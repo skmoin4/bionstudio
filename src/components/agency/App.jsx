@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Navbar from "./Navbar";
 import Hero from "./Hero";
 import Work from "./Work";
 import Footer from "./Footer";
+import { Cursor, useLenis } from "./SiteShell";
 import { BrandMark } from "./MotionKit";
 import { brand } from "./content";
 import {
@@ -47,61 +48,6 @@ function Loader({ done }) {
       </motion.span>
     </motion.div>
   );
-}
-
-function Cursor() {
-  const x = useMotionValue(-100),
-    y = useMotionValue(-100);
-  const sx = useSpring(x, { stiffness: 500, damping: 34 }),
-    sy = useSpring(y, { stiffness: 500, damping: 34 });
-  const [active, setActive] = useState(false);
-  const [label, setLabel] = useState("");
-  useEffect(() => {
-    const move = (e) => {
-      x.set(e.clientX);
-      y.set(e.clientY);
-      const target = e.target.closest("a,button,[data-cursor]");
-      setActive(Boolean(target));
-      setLabel(target?.getAttribute("data-cursor-text") || "");
-    };
-    window.addEventListener("pointermove", move);
-    return () => window.removeEventListener("pointermove", move);
-  }, [x, y]);
-  return (
-    <motion.div
-      className={`custom-cursor ${active ? "cursor-active" : ""} ${active && label ? "has-label" : ""}`}
-      style={{ x: sx, y: sy }}
-    >
-      {label && <span className={`cursor-label ${active ? "show" : ""}`}>{label}</span>}
-    </motion.div>
-  );
-}
-
-function useLenis(enabled) {
-  useEffect(() => {
-    if (!enabled) return;
-    let lenis;
-    let frame;
-    let cancelled = false;
-    import("lenis").then(({ default: Lenis }) => {
-      if (cancelled) return;
-      lenis = new Lenis({
-        duration: 1.1,
-        easing: (t) => 1 - Math.pow(1 - t, 3),
-        smoothWheel: true,
-      });
-      const raf = (time) => {
-        lenis.raf(time);
-        frame = requestAnimationFrame(raf);
-      };
-      frame = requestAnimationFrame(raf);
-    });
-    return () => {
-      cancelled = true;
-      if (frame) cancelAnimationFrame(frame);
-      lenis?.destroy();
-    };
-  }, [enabled]);
 }
 
 export default function AgencyApp() {

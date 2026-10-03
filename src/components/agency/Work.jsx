@@ -55,8 +55,13 @@ function CaseStudy({ project, index }) {
             </div>
           </Reveal>
           <Reveal delay={0.18}>
-            <a className="case-link" href="#contact" data-cursor="action" data-cursor-text="Talk">
-              <span>Discuss your project</span>
+            <a
+              className="case-link"
+              href={`/industries/${project.slug}`}
+              data-cursor="action"
+              data-cursor-text="Explore"
+            >
+              <span>Explore {project.industry.toLowerCase()} solutions</span>
               <span className="case-link-icon" aria-hidden="true">
                 <ArrowUpRight size={14} />
                 <ArrowUpRight size={14} />

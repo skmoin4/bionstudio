@@ -1,9 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AgencyApp from "../components/agency/App";
 import { brand, faqs, services } from "../components/agency/content";
-
-// Change this one value if the live domain is different.
-export const SITE_URL = "https://www.bionstudio.in";
+import { SITE_URL, OG_IMAGE } from "../lib/seo";
 
 const TITLE = "Bion Studio | Website, App & Software Development Agency in Nashik";
 const DESCRIPTION =
@@ -25,7 +23,6 @@ const KEYWORDS = [
   "digital agency India",
   "React Next.js development",
 ].join(", ");
-const OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -82,7 +79,12 @@ const structuredData = {
         name: "Digital services",
         itemListElement: services.map((s) => ({
           "@type": "Offer",
-          itemOffered: { "@type": "Service", name: s.title, description: s.text },
+          itemOffered: {
+            "@type": "Service",
+            name: s.title,
+            description: s.text,
+            url: `${SITE_URL}/services/${s.slug}`,
+          },
         })),
       },
     },
