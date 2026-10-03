@@ -528,7 +528,7 @@ export function Testimonials() {
         <div className="testimonial-stage-v2">
           <Reveal>
             <p className="eyebrow-mono">
-              <b>09</b> Kind words
+              <b>09</b> Our promise
             </p>
           </Reveal>
           <AnimatePresence mode="wait">
@@ -539,7 +539,7 @@ export function Testimonials() {
               exit={{ opacity: 0, y: -16 }}
               transition={{ duration: 0.45 }}
             >
-              <p>“{testimonials[active].quote}”</p>
+              <p>{testimonials[active].quote}</p>
               <footer>
                 <b>{testimonials[active].name}</b>
                 <span>{testimonials[active].role}</span>
@@ -552,7 +552,7 @@ export function Testimonials() {
                 key={i}
                 className={active === i ? "active" : ""}
                 onClick={() => setActive(i)}
-                aria-label={`View testimonial ${i + 1}`}
+                aria-label={`View promise ${i + 1}`}
               />
             ))}
           </div>

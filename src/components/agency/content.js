@@ -15,7 +15,7 @@ export const brand = {
   location: "Based in Nashik, India · Working remotely worldwide",
 };
 
-export const navItems = ["Home", "Services", "Work", "About", "Process", "Contact"];
+export const navItems = ["Home", "Services", "Solutions", "About", "Process", "Contact"];
 
 export const services = [
   {
@@ -79,32 +79,32 @@ export const transformation = [
 export const projects = [
   {
     n: "01",
-    title: "Aurelia Retreat",
+    title: "Hotels, Resorts & Homestays",
     industry: "Hospitality",
     built:
-      "A cinematic booking platform built around stillness — turning quiet, beautiful storytelling into direct reservations.",
-    scope: ["Brand & UI", "Booking flow", "CMS"],
-    tech: ["Next.js", "Booking Engine", "CMS"],
+      "Websites that show off your rooms, views and experiences — and let guests book directly with you instead of paying commission to booking portals.",
+    scope: ["Direct booking", "Room & gallery pages", "WhatsApp enquiries"],
+    tech: ["Google Maps & reviews", "Local SEO", "Mobile-first"],
     image: hotelImage,
   },
   {
     n: "02",
-    title: "House of Ember",
+    title: "Restaurants, Cafés & Bakeries",
     industry: "Food & Beverage",
     built:
-      "A sensory brand and ordering experience designed to turn late-night discovery into full tables.",
-    scope: ["Identity", "Menu & ordering", "Local SEO"],
-    tech: ["React", "Motion", "Local SEO"],
+      "A digital menu, table reservations and online ordering that turn people searching \"near me\" into customers walking through your door.",
+    scope: ["Digital menu & QR", "Reservations", "Online ordering"],
+    tech: ["Google Business setup", "Local SEO", "Instagram integration"],
     image: restaurantImage,
   },
   {
     n: "03",
-    title: "Form / Object",
-    industry: "Retail",
+    title: "Retail & Online Stores",
+    industry: "E-commerce",
     built:
-      "A restrained commerce storefront where product, texture and motion lead the story — and checkout stays effortless.",
-    scope: ["Storefront", "Product pages", "Analytics"],
-    tech: ["Shopify", "Headless Commerce", "Analytics"],
+      "Online stores with fast product pages, UPI and card payments, and an admin panel you can run yourself — no developer needed for daily updates.",
+    scope: ["Product catalogue", "UPI & card payments", "Order management"],
+    tech: ["Shopify or custom", "Inventory", "Analytics"],
     image: commerceImage,
   },
 ];
@@ -188,15 +188,15 @@ export const about = {
   headline:
     "We believe every business deserves a digital presence that feels as good as the business behind it.",
   paragraphs: [
-    "Bion Studio is a small, focused team of designers and engineers helping businesses build and grow their digital presence.",
+    "Bion Studio is a small, focused team of designers and developers based in Nashik, helping businesses build and grow their digital presence.",
     "Strategy, design and engineering live together here — fewer handoffs, clearer thinking, and work built around the whole business, not only the screen.",
   ],
 };
 
 export const stats = [
-  ["40+", "Projects delivered"],
-  ["12", "Industries served"],
-  ["3", "Years in motion"],
+  ["24h", "Reply to every enquiry"],
+  ["100%", "Code & design ownership"],
+  ["Free", "First consultation"],
 ];
 
 export const techRings = [
@@ -234,20 +234,24 @@ export const techRings = [
 
 export const testimonials = [
   {
-    quote:
-      "The kind of digital partner that sees the business problem before opening the design file.",
-    name: "Founder",
-    role: "Hospitality group",
+    quote: "A fixed, written quote before any work begins — no hidden costs, no surprises.",
+    name: "Clear pricing",
+    role: "Promise 01",
   },
   {
-    quote: "Clear thinking, premium execution, and a product that finally feels like our ambition.",
-    name: "Managing Director",
-    role: "Retail brand",
+    quote: "You talk directly to the people designing and building your project — no middlemen.",
+    name: "Direct access",
+    role: "Promise 02",
   },
   {
-    quote: "A small, responsive team with the strategic depth of a much larger studio.",
-    name: "Co-founder",
-    role: "Growth-stage company",
+    quote: "Weekly progress updates on WhatsApp, so you always know where your project stands.",
+    name: "Always in the loop",
+    role: "Promise 03",
+  },
+  {
+    quote: "One month of free support after launch — bug fixes and small changes included.",
+    name: "Support after launch",
+    role: "Promise 04",
   },
 ];
 
@@ -271,5 +275,17 @@ export const faqs = [
   {
     q: "Do I own the code and the designs?",
     a: "Yes. Once the project is complete you own everything we build for you — source code, design files and assets.",
+  },
+  {
+    q: "Can we meet in person?",
+    a: "Yes. We're based in Nashik, so for businesses in and around Nashik we're happy to meet in person. For everyone else, we work over video calls and WhatsApp.",
+  },
+  {
+    q: "We already have a website. Can you redesign it?",
+    a: "Absolutely. We'll review your current site for free, show you what's holding it back — speed, design, mobile experience or Google visibility — and propose a clear plan to fix it.",
+  },
+  {
+    q: "Will my website show up on Google?",
+    a: "Every site we build is set up for search from day one — fast loading, mobile-friendly, proper meta tags, sitemap and Google Search Console. For local businesses we also help set up your Google Business Profile.",
   },
 ];

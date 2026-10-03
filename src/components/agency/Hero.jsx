@@ -30,7 +30,7 @@ const ease = [0.16, 1, 0.3, 1];
 
 const slides = [
   {
-    url: "bionstudio.in / aurelia-retreat",
+    url: "sample design · hotel website",
     brand: "AURELIA",
     action: "Book",
     kicker: "LUXURY RETREAT",
@@ -38,13 +38,13 @@ const slides = [
     cta: "Book your stay",
     chips: ["Direct booking", "Immersive gallery", "Guest reviews"],
     image: hotelImage,
-    score: 98,
-    metric: "Direct bookings",
-    value: "+42%",
+    score: 95,
+    metric: "Built to grow",
+    value: "Bookings",
     line: "M0 36 L20 32 L38 34 L58 24 L80 26 L100 14 L120 10 L140 3",
   },
   {
-    url: "bionstudio.in / house-of-ember",
+    url: "sample design · restaurant website",
     brand: "EMBER",
     action: "Reserve",
     kicker: "FIRE-LED DINING",
@@ -52,13 +52,13 @@ const slides = [
     cta: "Reserve a table",
     chips: ["Online reservations", "Seasonal menu", "Local SEO"],
     image: restaurantImage,
-    score: 96,
-    metric: "Weekly covers",
-    value: "+31%",
+    score: 95,
+    metric: "Built to grow",
+    value: "Footfall",
     line: "M0 34 L20 30 L38 32 L58 26 L80 20 L100 22 L120 12 L140 6",
   },
   {
-    url: "bionstudio.in / form-object",
+    url: "sample design · online store",
     brand: "FORM / OBJECT",
     action: "Cart",
     kicker: "NEW COLLECTION",
@@ -66,9 +66,9 @@ const slides = [
     cta: "Shop the edit",
     chips: ["Fast checkout", "Product stories", "Analytics"],
     image: commerceImage,
-    score: 99,
-    metric: "Conversion rate",
-    value: "+27%",
+    score: 95,
+    metric: "Built to grow",
+    value: "Sales",
     line: "M0 38 L20 34 L38 30 L58 32 L80 20 L100 16 L120 8 L140 4",
   },
 ];
@@ -177,8 +177,8 @@ export default function Hero() {
               <MagneticLink href="#contact" variant="electric">
                 Start a project
               </MagneticLink>
-              <MagneticLink href="#work" variant="outline">
-                View our work
+              <MagneticLink href="#solutions" variant="outline">
+                See what we build
               </MagneticLink>
             </motion.div>
           </div>
@@ -292,7 +292,7 @@ export default function Hero() {
             </div>
             <div className="score-copy">
               <strong>Performance</strong>
-              <span>Lighthouse score</span>
+              <span>Lighthouse target</span>
             </div>
           </FloatCard>
 
@@ -322,7 +322,7 @@ export default function Hero() {
 
           <FloatCard className="f-live" delay={2.1} x={cardX} y={cardY} bob={5}>
             <span className="live-dot" />
-            <span>Live in production</span>
+            <span>Mobile-first · SEO-ready</span>
             <Check size={13} />
           </FloatCard>
 
@@ -341,14 +341,14 @@ export default function Hero() {
                 }}
               />
             ))}
-          <div className="hero-dots" role="tablist" aria-label="Featured projects">
+          <div className="hero-dots" role="tablist" aria-label="Sample designs">
             {slides.map((sl, i) => (
               <button
                 key={sl.url}
                 type="button"
                 role="tab"
                 aria-selected={slide === i}
-                aria-label={`Show ${sl.brand.toLowerCase()} project`}
+                aria-label={`Show ${sl.brand.toLowerCase()} sample design`}
                 className={slide === i ? "is-active" : ""}
                 onClick={() => go(i)}
               >
