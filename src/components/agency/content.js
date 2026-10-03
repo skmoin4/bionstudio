@@ -207,6 +207,8 @@ export const techRings = [
       { name: "React", icon: "Atom" },
       { name: "Next.js", icon: "Layers" },
       { name: "TypeScript", icon: "FileCode2" },
+      { name: "WordPress", icon: "Globe" },
+      { name: "Figma", icon: "PenTool" },
     ],
   },
   {
@@ -214,20 +216,20 @@ export const techRings = [
     sub: "What powers it underneath",
     items: [
       { name: "Node.js", icon: "Hexagon" },
-      { name: "Express", icon: "Server" },
+      { name: "Laravel / PHP", icon: "Braces" },
+      { name: "Python", icon: "Terminal" },
       { name: "MongoDB", icon: "Leaf" },
       { name: "MySQL", icon: "Database" },
     ],
   },
   {
-    label: "Mobile & cloud",
-    sub: "Where it runs and scales",
+    label: "Mobile & commerce",
+    sub: "Apps and online stores",
     items: [
       { name: "Flutter", icon: "Feather" },
       { name: "React Native", icon: "Smartphone" },
       { name: "Firebase", icon: "Flame" },
-      { name: "AWS", icon: "Cloud" },
-      { name: "Vercel", icon: "Triangle" },
+      { name: "Shopify", icon: "ShoppingBag" },
     ],
   },
 ];
