@@ -1,64 +1,114 @@
 import { AnimatePresence, motion, useScroll } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   BedDouble,
   Boxes,
+  Briefcase,
+  Building2,
+  Car,
   ChevronDown,
+  Dumbbell,
+  Factory,
   Globe,
+  GraduationCap,
   LayoutDashboard,
+  MapPin,
+  Megaphone,
   MessageCircle,
+  Palette,
+  PanelsTopLeft,
   PenTool,
+  Plane,
+  RefreshCw,
+  Rocket,
+  Search,
   ShoppingBag,
+  ShoppingCart,
   Smartphone,
   Sparkles,
+  Sprout,
+  Stethoscope,
   UtensilsCrossed,
+  Wine,
   Workflow,
+  Wrench,
   X,
 } from "lucide-react";
 import { brand, navItems } from "./content";
-import { industryPages, servicePages } from "./pages";
+import { industryPages, serviceGroups, servicePages } from "./pages";
 import { BrandMark, ButtonContent } from "./MotionKit";
 
-const icons = {
+export const icons = {
   Globe,
   LayoutDashboard,
   Smartphone,
   Boxes,
   PenTool,
   Workflow,
+  ShoppingCart,
+  PanelsTopLeft,
+  Search,
+  MapPin,
+  Megaphone,
+  Palette,
+  RefreshCw,
+  Wrench,
   BedDouble,
   UtensilsCrossed,
   ShoppingBag,
+  Wine,
+  Building2,
+  Stethoscope,
+  GraduationCap,
+  Factory,
+  Dumbbell,
+  Car,
+  Plane,
+  Sprout,
+  Briefcase,
+  Rocket,
 };
+
+const toItem = (base) => (s) => ({
+  href: `${base}/${s.slug}`,
+  icon: s.icon,
+  title: s.navTitle,
+  text: s.navDesc,
+});
 
 export const menus = {
   services: {
     title: "Our services",
-    sub: "Everything you need to build and grow online",
-    all: { href: "/#services", label: "View all services" },
-    cols: 3,
-    items: servicePages.map((s) => ({
-      href: `/services/${s.slug}`,
-      icon: s.icon,
-      title: s.navTitle,
-      text: s.navDesc,
+    sub: "Everything you need to build, grow and run your business online",
+    all: { href: "/services", label: "View all services" },
+    groups: serviceGroups.map((g) => ({
+      ...g,
+      items: servicePages.filter((s) => s.group === g.id).map(toItem("/services")),
     })),
   },
   industries: {
     title: "Industries we serve",
-    sub: "Solutions shaped around how your business works",
-    all: { href: "/#solutions", label: "See all solutions" },
-    cols: 3,
-    items: industryPages.map((s) => ({
-      href: `/industries/${s.slug}`,
-      icon: s.icon,
-      image: s.image,
-      title: s.navTitle,
-      text: s.navDesc,
-    })),
+    sub: "Websites and software shaped around how your business works",
+    all: { href: "/industries", label: "View all industries" },
+    groups: [{ id: "all", items: industryPages.map(toItem("/industries")) }],
   },
 };
+
+function MegaItem({ item }) {
+  const Icon = icons[item.icon];
+  return (
+    <a href={item.href} className="mega-item">
+      <span className="mega-ico">
+        <Icon size={17} />
+      </span>
+      <span className="mega-copy">
+        <b>{item.title}</b>
+        <small>{item.text}</small>
+      </span>
+    </a>
+  );
+}
 
 function MegaPanel({ menu, onEnter, onLeave }) {
   const m = menus[menu];
@@ -85,30 +135,22 @@ function MegaPanel({ menu, onEnter, onLeave }) {
             {m.all.label} <ArrowRight size={15} />
           </a>
         </div>
-        <div className={`mega-grid ${m.items.some((x) => x.image) ? "has-media" : ""}`}>
-          {m.items.map((item) => {
-            const Icon = icons[item.icon];
-            return (
-              <a key={item.href} href={item.href} className="mega-item">
-                {item.image ? (
-                  <span className="mega-thumb">
-                    <img src={item.image} alt="" width="320" height="200" loading="lazy" />
-                    <span className="mega-ico">
-                      <Icon size={17} />
-                    </span>
-                  </span>
-                ) : (
-                  <span className="mega-ico">
-                    <Icon size={18} />
-                  </span>
-                )}
-                <span className="mega-copy">
-                  <b>{item.title}</b>
-                  <small>{item.text}</small>
-                </span>
-              </a>
-            );
-          })}
+        <div className={`mega-body mega-${menu}`} data-lenis-prevent>
+          {m.groups.map((g) => (
+            <div key={g.id} className="mega-col">
+              {g.label && (
+                <p className="mega-col-head">
+                  {g.label}
+                  <span>{g.sub}</span>
+                </p>
+              )}
+              <div className="mega-grid">
+                {g.items.map((item) => (
+                  <MegaItem key={item.href} item={item} />
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
         <div className="mega-foot">
           <div>
@@ -227,6 +269,7 @@ export default function Navbar({ solid = false }) {
         {open && (
           <motion.div
             className="mobile-menu"
+            data-lenis-prevent
             initial={{ clipPath: "circle(0% at 92% 6%)" }}
             animate={{ clipPath: "circle(150% at 92% 6%)" }}
             exit={{ clipPath: "circle(0% at 92% 6%)" }}
@@ -276,20 +319,25 @@ export default function Navbar({ solid = false }) {
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                           >
-                            {menus[item.menu].items.map((sub) => {
-                              const Icon = icons[sub.icon];
-                              return (
-                                <a key={sub.href} href={sub.href} onClick={() => setOpen(false)}>
-                                  <span className="mega-ico">
-                                    <Icon size={16} />
-                                  </span>
-                                  <span>
-                                    <b>{sub.title}</b>
-                                    <small>{sub.text}</small>
-                                  </span>
-                                </a>
-                              );
-                            })}
+                            {menus[item.menu].groups.map((g) => (
+                              <Fragment key={g.id}>
+                                {g.label && <p className="m-sub-head">{g.label}</p>}
+                                {g.items.map((sub) => {
+                                  const Icon = icons[sub.icon];
+                                  return (
+                                    <a key={sub.href} href={sub.href} onClick={() => setOpen(false)}>
+                                      <span className="mega-ico">
+                                        <Icon size={16} />
+                                      </span>
+                                      <span>
+                                        <b>{sub.title}</b>
+                                        <small>{sub.text}</small>
+                                      </span>
+                                    </a>
+                                  );
+                                })}
+                              </Fragment>
+                            ))}
                             <a className="m-sub-all" href={menus[item.menu].all.href} onClick={() => setOpen(false)}>
                               {menus[item.menu].all.label} <ArrowRight size={14} />
                             </a>

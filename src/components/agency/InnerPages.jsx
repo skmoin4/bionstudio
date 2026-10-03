@@ -3,7 +3,8 @@ import SiteShell from "./SiteShell";
 import { Contact, FAQ, FinalCTA } from "./Sections";
 import { MagneticLink, Reveal } from "./MotionKit";
 import { brand, faqs, processSteps } from "./content";
-import { findService } from "./pages";
+import { findService, industryPages, serviceGroups, servicePages } from "./pages";
+import { icons } from "./Navbar";
 
 function Crumbs({ items }) {
   return (
@@ -130,6 +131,103 @@ function Steps() {
   );
 }
 
+function IconBadge({ name }) {
+  const Icon = icons[name];
+  return (
+    <span className="pg-card-ico" aria-hidden="true">
+      <Icon size={20} />
+    </span>
+  );
+}
+
+function IndexCard({ href, icon, kicker, title, text }) {
+  return (
+    <Reveal as="a" href={href} className="pg-related-card">
+      <IconBadge name={icon} />
+      {kicker && <span className="pg-related-kicker">{kicker}</span>}
+      <h3>{title}</h3>
+      <p>{text}</p>
+      <span className="row-arrow" aria-hidden="true">
+        <ArrowUpRight size={18} />
+      </span>
+    </Reveal>
+  );
+}
+
+export function ServicesIndexPage() {
+  return (
+    <SiteShell>
+      <PageHero
+        crumbs={[{ name: "Home", href: "/" }, { name: "Services" }]}
+        eyebrow="Services"
+        h1={["Everything you need to", "build and grow online."]}
+        lede="Websites, apps and software to build with — SEO, branding and marketing to grow with — and redesign, automation and support to keep everything running well. One team, start to finish."
+        tags={serviceGroups.map((g) => g.label)}
+      />
+      <section className="section theme-light">
+        <div className="shell">
+          {serviceGroups.map((g) => (
+            <div key={g.id} className="pg-index-group">
+              <div className="pg-index-head">
+                <h2>{g.label}</h2>
+                <p>{g.sub}</p>
+              </div>
+              <div className="pg-index-grid">
+                {servicePages
+                  .filter((s) => s.group === g.id)
+                  .map((s) => (
+                    <IndexCard
+                      key={s.slug}
+                      href={`/services/${s.slug}`}
+                      icon={s.icon}
+                      title={s.navTitle}
+                      text={s.navDesc}
+                    />
+                  ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+      <FinalCTA ctaHref="/contact" />
+    </SiteShell>
+  );
+}
+
+export function IndustriesIndexPage() {
+  return (
+    <SiteShell>
+      <PageHero
+        crumbs={[{ name: "Home", href: "/" }, { name: "Industries" }]}
+        eyebrow="Industries"
+        h1={["Built for the way", "your business works."]}
+        lede="From hotels and clinics to manufacturers, institutes and startups — we build websites, apps and software for businesses of every kind, in Nashik and across India."
+      />
+      <section className="section theme-light">
+        <div className="shell">
+          <div className="pg-index-grid">
+            {industryPages.map((s) => (
+              <IndexCard
+                key={s.slug}
+                href={`/industries/${s.slug}`}
+                icon={s.icon}
+                kicker={s.eyebrow}
+                title={s.navTitle}
+                text={s.navDesc}
+              />
+            ))}
+          </div>
+          <p className="pg-index-note">
+            Don't see your industry? We build for almost any business —{" "}
+            <a href="/contact">tell us about yours</a>.
+          </p>
+        </div>
+      </section>
+      <FinalCTA ctaHref="/contact" />
+    </SiteShell>
+  );
+}
+
 function ServiceLinks({ index, label, title, slugs }) {
   return (
     <section className="section theme-light pg-related">
@@ -140,6 +238,7 @@ function ServiceLinks({ index, label, title, slugs }) {
             const s = findService(slug);
             return (
               <Reveal key={slug} delay={i * 0.06} as="a" href={`/services/${slug}`} className="pg-related-card">
+                <IconBadge name={s.icon} />
                 <span className="pg-related-kicker">{s.eyebrow}</span>
                 <h3>{s.navTitle}</h3>
                 <p>{s.navDesc}</p>
@@ -161,7 +260,7 @@ export function ServicePage({ page }) {
       <PageHero
         crumbs={[
           { name: "Home", href: "/" },
-          { name: "Services", href: "/#services" },
+          { name: "Services", href: "/services" },
           { name: page.navTitle },
         ]}
         eyebrow={page.eyebrow}
@@ -230,7 +329,7 @@ export function IndustryPage({ page }) {
       <PageHero
         crumbs={[
           { name: "Home", href: "/" },
-          { name: "Industries", href: "/#solutions" },
+          { name: "Industries", href: "/industries" },
           { name: page.navTitle },
         ]}
         eyebrow={page.eyebrow}

@@ -28,19 +28,25 @@ export default function Footer() {
           </div>
           <div>
             <strong>Services</strong>
-            {servicePages.map((x) => (
+            {servicePages.slice(0, 7).map((x) => (
               <a key={x.slug} href={`/services/${x.slug}`}>
                 {x.navTitle}
               </a>
             ))}
+            <a href="/services" className="footer-all">
+              All {servicePages.length} services →
+            </a>
           </div>
           <div>
             <strong>Industries</strong>
-            {industryPages.map((x) => (
+            {industryPages.slice(0, 7).map((x) => (
               <a key={x.slug} href={`/industries/${x.slug}`}>
                 {x.navTitle}
               </a>
             ))}
+            <a href="/industries" className="footer-all">
+              All {industryPages.length} industries →
+            </a>
           </div>
           <div>
             <strong>Contact</strong>

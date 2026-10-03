@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import AgencyApp from "../components/agency/App";
-import { brand, faqs, services } from "../components/agency/content";
+import { brand, faqs } from "../components/agency/content";
+import { servicePages } from "../components/agency/pages";
 import { SITE_URL, OG_IMAGE } from "../lib/seo";
 
 const TITLE = "Bion Studio | Website, App & Software Development Agency in Nashik";
@@ -22,6 +23,13 @@ const KEYWORDS = [
   "restaurant website design",
   "digital agency India",
   "React Next.js development",
+  "WordPress developer Nashik",
+  "Shopify developer India",
+  "SEO services Nashik",
+  "Google Business Profile Nashik",
+  "logo design Nashik",
+  "website redesign",
+  "website maintenance",
 ].join(", ");
 
 const structuredData = {
@@ -77,12 +85,12 @@ const structuredData = {
       hasOfferCatalog: {
         "@type": "OfferCatalog",
         name: "Digital services",
-        itemListElement: services.map((s) => ({
+        itemListElement: servicePages.map((s) => ({
           "@type": "Offer",
           itemOffered: {
             "@type": "Service",
-            name: s.title,
-            description: s.text,
+            name: s.navTitle,
+            description: s.metaDescription,
             url: `${SITE_URL}/services/${s.slug}`,
           },
         })),

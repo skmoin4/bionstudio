@@ -35,6 +35,7 @@ import {
   whyBion,
 } from "./content";
 import { BrandMark, ButtonContent, MagneticLink, Reveal } from "./MotionKit";
+import { servicePages } from "./pages";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
@@ -164,6 +165,19 @@ export function Services() {
               </span>
             </Reveal>
           ))}
+        </div>
+        <div className="home-more">
+          <span>Also</span>
+          {servicePages
+            .filter((x) => !services.some((s) => s.slug === x.slug))
+            .map((x) => (
+              <a key={x.slug} href={`/services/${x.slug}`}>
+                {x.navTitle}
+              </a>
+            ))}
+          <a href="/services" className="is-all">
+            All services →
+          </a>
         </div>
       </div>
     </section>
@@ -737,15 +751,7 @@ export function Contact({ headingAs = "h2", index = "11" }) {
               <option value="" disabled>
                 Select a service
               </option>
-              {[
-                "Web Experience",
-                "Digital Product",
-                "Mobile App",
-                "Custom Software",
-                "UI/UX",
-                "Automation",
-                "Other",
-              ].map((x) => (
+              {[...servicePages.map((x) => x.navTitle), "Not sure yet / Other"].map((x) => (
                 <option key={x}>{x}</option>
               ))}
             </select>

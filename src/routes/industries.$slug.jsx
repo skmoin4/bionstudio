@@ -21,7 +21,7 @@ export const Route = createFileRoute("/industries/$slug")({
         serviceLd({ name: `${page.navTitle} websites`, description: page.metaDescription, path }),
         breadcrumbLd([
           { name: "Home", path: "/" },
-          { name: "Industries", path: "/#solutions" },
+          { name: "Industries", path: "/industries" },
           { name: page.navTitle, path },
         ]),
         faqLd(page.faqs),

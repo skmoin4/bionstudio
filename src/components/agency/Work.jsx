@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from "motion/react";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "./content";
+import { industryPages } from "./pages";
 import { Reveal } from "./MotionKit";
 
 function CaseStudy({ project, index }) {
@@ -91,6 +92,19 @@ export default function Work() {
         {projects.map((project, i) => (
           <CaseStudy project={project} index={i} key={project.title} />
         ))}
+        <div className="home-more">
+          <span>We also build for</span>
+          {industryPages
+            .filter((x) => !projects.some((p) => p.slug === x.slug))
+            .map((x) => (
+              <a key={x.slug} href={`/industries/${x.slug}`}>
+                {x.navTitle}
+              </a>
+            ))}
+          <a href="/industries" className="is-all">
+            All industries →
+          </a>
+        </div>
       </div>
     </section>
   );
