@@ -2,6 +2,7 @@ import { ArrowUp } from "lucide-react";
 import { brand, navItems } from "./content";
 import { industryPages, servicePages } from "./pages";
 import { BrandMark } from "./MotionKit";
+import { SocialRow } from "./Social";
 
 export default function Footer() {
   return (
@@ -52,17 +53,15 @@ export default function Footer() {
             <strong>Contact</strong>
             <a href={`mailto:${brand.email}`}>{brand.email}</a>
             <a href={brand.phoneHref}>{brand.phone}</a>
-            <a href={brand.whatsapp} target="_blank" rel="noopener noreferrer">
-              WhatsApp
-            </a>
-            <a href={brand.instagram} target="_blank" rel="noopener noreferrer">
-              Instagram
-            </a>
-            <a href={brand.facebook} target="_blank" rel="noopener noreferrer">
-              Facebook
-            </a>
             <span>{brand.location}</span>
           </div>
+        </div>
+        <div className="footer-social">
+          <div className="footer-social-head">
+            <strong>Say hello</strong>
+            <p>Reply within a few hours, most days.</p>
+          </div>
+          <SocialRow />
         </div>
         <div className="footer-signature">
           <BrandMark />

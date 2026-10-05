@@ -38,6 +38,7 @@ import {
 import { brand, navItems } from "./content";
 import { industryPages, serviceGroups, servicePages } from "./pages";
 import { BrandMark, ButtonContent } from "./MotionKit";
+import { SocialRow } from "./Social";
 
 export const icons = {
   Globe,
@@ -355,8 +356,14 @@ export default function Navbar({ solid = false }) {
               ))}
             </nav>
             <div className="mobile-menu-foot">
+              <SocialRow compact onNavigate={() => setOpen(false)} />
+              <a className="mmf-line" href={`mailto:${brand.email}`}>
+                {brand.email}
+              </a>
+              <a className="mmf-line" href={brand.phoneHref}>
+                {brand.phone}
+              </a>
               <span>{brand.location}</span>
-              <span>{brand.email}</span>
             </div>
           </motion.div>
         )}
