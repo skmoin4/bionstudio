@@ -24,9 +24,9 @@ function Crumbs({ items }) {
   );
 }
 
-function PageHero({ crumbs, eyebrow, h1, lede, tags, image }) {
+function PageHero({ crumbs, eyebrow, h1, lede, tags, image, aside }) {
   return (
-    <section className={`pg-hero ${image ? "has-media" : ""}`}>
+    <section className={`pg-hero ${image || aside ? "has-media" : ""}`}>
       <div className="pg-hero-glow" aria-hidden="true" />
       <div className="shell pg-hero-grid">
         <div className="pg-hero-copy">
@@ -66,6 +66,7 @@ function PageHero({ crumbs, eyebrow, h1, lede, tags, image }) {
             <span>Sample design</span>
           </Reveal>
         )}
+        {!image && aside}
       </div>
     </section>
   );
@@ -140,16 +141,58 @@ function IconBadge({ name }) {
   );
 }
 
-function IndexCard({ href, icon, kicker, title, text }) {
+function IndexCard({ href, icon, kicker, title, text, index = 0, cta = "Explore" }) {
   return (
-    <Reveal as="a" href={href} className="pg-related-card">
+    <Reveal as="a" href={href} delay={(index % 3) * 0.06} className="pg-related-card is-index">
+      <span className="pg-card-sheen" aria-hidden="true" />
       <IconBadge name={icon} />
       {kicker && <span className="pg-related-kicker">{kicker}</span>}
       <h3>{title}</h3>
       <p>{text}</p>
-      <span className="row-arrow" aria-hidden="true">
-        <ArrowUpRight size={18} />
+      <span className="pg-card-foot">
+        <b>{cta}</b>
+        <span className="row-arrow" aria-hidden="true">
+          <ArrowUpRight size={18} />
+        </span>
       </span>
+    </Reveal>
+  );
+}
+
+function ServicesHeroPanel() {
+  return (
+    <Reveal delay={0.12} className="pg-hero-panel">
+      <div className="pg-hero-panel-top">
+        <span className="pg-hero-panel-num">{servicePages.length}</span>
+        <div>
+          <b>services under one roof</b>
+          <small>One team, one point of contact — from first call to launch and after.</small>
+        </div>
+      </div>
+      <ul className="pg-hero-panel-list">
+        {serviceGroups.map((g) => {
+          const items = servicePages.filter((s) => s.group === g.id);
+          return (
+            <li key={g.id}>
+              <span className="pg-hero-panel-row">
+                <b>{g.label}</b>
+                <i>{String(items.length).padStart(2, "0")}</i>
+              </span>
+              <small>{g.sub}</small>
+              <span className="pg-hero-panel-icons">
+                {items.slice(0, 6).map((s) => {
+                  const Icon = icons[s.icon];
+                  return (
+                    <em key={s.slug} title={s.navTitle}>
+                      <Icon size={14} />
+                    </em>
+                  );
+                })}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
     </Reveal>
   );
 }
@@ -163,30 +206,39 @@ export function ServicesIndexPage() {
         h1={["Everything you need to", "build and grow online."]}
         lede="Websites, apps and software to build with — SEO, branding and marketing to grow with — and redesign, automation and support to keep everything running well. One team, start to finish."
         tags={serviceGroups.map((g) => g.label)}
+        aside={<ServicesHeroPanel />}
       />
       <section className="section theme-light">
         <div className="shell">
-          {serviceGroups.map((g) => (
-            <div key={g.id} className="pg-index-group">
-              <div className="pg-index-head">
-                <h2>{g.label}</h2>
-                <p>{g.sub}</p>
-              </div>
-              <div className="pg-index-grid">
-                {servicePages
-                  .filter((s) => s.group === g.id)
-                  .map((s) => (
+          {serviceGroups.map((g, gi) => {
+            const items = servicePages.filter((s) => s.group === g.id);
+            return (
+              <div key={g.id} className="pg-index-group">
+                <div className="pg-index-head">
+                  <div className="pg-index-head-main">
+                    <span className="pg-index-head-num">{String(gi + 1).padStart(2, "0")}</span>
+                    <h2>{g.label}</h2>
+                  </div>
+                  <p>
+                    {g.sub} <i>{items.length} services</i>
+                  </p>
+                </div>
+                <div className="pg-index-grid">
+                  {items.map((s, i) => (
                     <IndexCard
                       key={s.slug}
                       href={`/services/${s.slug}`}
                       icon={s.icon}
                       title={s.navTitle}
                       text={s.navDesc}
+                      index={i}
+                      cta="Explore service"
                     />
                   ))}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </section>
       <FinalCTA ctaHref="/contact" />
@@ -206,7 +258,7 @@ export function IndustriesIndexPage() {
       <section className="section theme-light">
         <div className="shell">
           <div className="pg-index-grid">
-            {industryPages.map((s) => (
+            {industryPages.map((s, i) => (
               <IndexCard
                 key={s.slug}
                 href={`/industries/${s.slug}`}
@@ -214,6 +266,8 @@ export function IndustriesIndexPage() {
                 kicker={s.eyebrow}
                 title={s.navTitle}
                 text={s.navDesc}
+                index={i}
+                cta="Explore industry"
               />
             ))}
           </div>
