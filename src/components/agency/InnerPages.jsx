@@ -24,9 +24,9 @@ function Crumbs({ items }) {
   );
 }
 
-function PageHero({ crumbs, eyebrow, h1, lede, tags, image, aside }) {
+function PageHero({ crumbs, eyebrow, h1, lede, tags, image, center }) {
   return (
-    <section className={`pg-hero ${image || aside ? "has-media" : ""}`}>
+    <section className={`pg-hero ${image ? "has-media" : ""} ${center ? "is-center" : ""}`}>
       <div className="pg-hero-glow" aria-hidden="true" />
       <div className="shell pg-hero-grid">
         <div className="pg-hero-copy">
@@ -66,7 +66,6 @@ function PageHero({ crumbs, eyebrow, h1, lede, tags, image, aside }) {
             <span>Sample design</span>
           </Reveal>
         )}
-        {!image && aside}
       </div>
     </section>
   );
@@ -132,20 +131,27 @@ function Steps() {
   );
 }
 
-function IconBadge({ name }) {
+function IconBadge({ name, size = 20 }) {
   const Icon = icons[name];
   return (
     <span className="pg-card-ico" aria-hidden="true">
-      <Icon size={20} />
+      <Icon size={size} />
     </span>
   );
 }
 
 function IndexCard({ href, icon, kicker, title, text, index = 0, cta = "Explore" }) {
+  const Ghost = icons[icon];
   return (
     <Reveal as="a" href={href} delay={(index % 3) * 0.06} className="pg-related-card is-index">
       <span className="pg-card-sheen" aria-hidden="true" />
-      <IconBadge name={icon} />
+      <span className="pg-card-ghost" aria-hidden="true">
+        <Ghost size={160} strokeWidth={1} />
+      </span>
+      <span className="pg-card-top">
+        <IconBadge name={icon} size={24} />
+        <span className="pg-card-num-chip">{String(index + 1).padStart(2, "0")}</span>
+      </span>
       {kicker && <span className="pg-related-kicker">{kicker}</span>}
       <h3>{title}</h3>
       <p>{text}</p>
@@ -159,44 +165,6 @@ function IndexCard({ href, icon, kicker, title, text, index = 0, cta = "Explore"
   );
 }
 
-function ServicesHeroPanel() {
-  return (
-    <Reveal delay={0.12} className="pg-hero-panel">
-      <div className="pg-hero-panel-top">
-        <span className="pg-hero-panel-num">{servicePages.length}</span>
-        <div>
-          <b>services under one roof</b>
-          <small>One team, one point of contact — from first call to launch and after.</small>
-        </div>
-      </div>
-      <ul className="pg-hero-panel-list">
-        {serviceGroups.map((g) => {
-          const items = servicePages.filter((s) => s.group === g.id);
-          return (
-            <li key={g.id}>
-              <span className="pg-hero-panel-row">
-                <b>{g.label}</b>
-                <i>{String(items.length).padStart(2, "0")}</i>
-              </span>
-              <small>{g.sub}</small>
-              <span className="pg-hero-panel-icons">
-                {items.slice(0, 6).map((s) => {
-                  const Icon = icons[s.icon];
-                  return (
-                    <em key={s.slug} title={s.navTitle}>
-                      <Icon size={14} />
-                    </em>
-                  );
-                })}
-              </span>
-            </li>
-          );
-        })}
-      </ul>
-    </Reveal>
-  );
-}
-
 export function ServicesIndexPage() {
   return (
     <SiteShell>
@@ -205,8 +173,10 @@ export function ServicesIndexPage() {
         eyebrow="Services"
         h1={["Everything you need to", "build and grow online."]}
         lede="Websites, apps and software to build with — SEO, branding and marketing to grow with — and redesign, automation and support to keep everything running well. One team, start to finish."
-        tags={serviceGroups.map((g) => g.label)}
-        aside={<ServicesHeroPanel />}
+        tags={serviceGroups.map(
+          (g) => `${g.label} · ${servicePages.filter((s) => s.group === g.id).length}`,
+        )}
+        center
       />
       <section className="section theme-light">
         <div className="shell">
@@ -254,6 +224,8 @@ export function IndustriesIndexPage() {
         eyebrow="Industries"
         h1={["Built for the way", "your business works."]}
         lede="From hotels and clinics to manufacturers, institutes and startups — we build websites, apps and software for businesses of every kind, in Nashik and across India."
+        tags={[`${industryPages.length} industries`, "Nashik & across India", "Web · App · SEO"]}
+        center
       />
       <section className="section theme-light">
         <div className="shell">
